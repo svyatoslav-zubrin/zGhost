@@ -677,8 +677,11 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="zra-Z0-5aq"/>
-                <menuItem title="Preferences" enabled="NO" id="Cec-r4-9W0">
+                <menuItem title="Preferences" id="Cec-r4-9W0">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="preferences:" target="Voe-Tx-rLC" id="AWo-wC-Vs9"/>
+                    </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="0B5-MZ-Wix"/>
                 <menuItem title="Quit" id="bNL-fh-6RU">
@@ -688,7 +691,7 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="455.5" y="440.5"/>
+            <point key="canvasLocation" x="195" y="467.5"/>
         </menu>
     </objects>
 </document>

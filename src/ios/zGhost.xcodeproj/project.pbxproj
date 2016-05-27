@@ -20,6 +20,8 @@
 		CE28DA411CF6BABA0098161E /* GameplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE28DA401CF6BABA0098161E /* GameplayKit.framework */; };
 		CE565DB01CF583FB006AAC49 /* SimulationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE565DAF1CF583FB006AAC49 /* SimulationManager.swift */; };
 		CE565DC11CF5DC04006AAC49 /* ScriptsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE565DC01CF5DC04006AAC49 /* ScriptsBuilder.swift */; };
+		CEE9AC931CF8ACF4007EFA6A /* Settings.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE9AC921CF8ACF4007EFA6A /* Settings.xib */; };
+		CEE9AC951CF8B394007EFA6A /* PreferencesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9AC941CF8B394007EFA6A /* PreferencesManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		CE28DA401CF6BABA0098161E /* GameplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameplayKit.framework; path = System/Library/Frameworks/GameplayKit.framework; sourceTree = SDKROOT; };
 		CE565DAF1CF583FB006AAC49 /* SimulationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulationManager.swift; sourceTree = "<group>"; };
 		CE565DC01CF5DC04006AAC49 /* ScriptsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScriptsBuilder.swift; path = Scripts/ScriptsBuilder.swift; sourceTree = "<group>"; };
+		CEE9AC921CF8ACF4007EFA6A /* Settings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Settings.xib; sourceTree = "<group>"; };
+		CEE9AC941CF8B394007EFA6A /* PreferencesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +83,12 @@
 			children = (
 				8D0128831CF4F4B0002583B9 /* AppDelegate.swift */,
 				CE565DAF1CF583FB006AAC49 /* SimulationManager.swift */,
+				CEE9AC941CF8B394007EFA6A /* PreferencesManager.swift */,
 				CE565DB11CF58450006AAC49 /* Scripts */,
 				8DBCEB751CF6364700DC3535 /* Misc */,
 				8D0128851CF4F4B1002583B9 /* Assets.xcassets */,
 				8D0128871CF4F4B1002583B9 /* MainMenu.xib */,
+				CEE9AC921CF8ACF4007EFA6A /* Settings.xib */,
 				8D01288A1CF4F4B1002583B9 /* Info.plist */,
 			);
 			path = zGhost;
@@ -179,6 +185,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEE9AC931CF8ACF4007EFA6A /* Settings.xib in Resources */,
 				8D0128861CF4F4B1002583B9 /* Assets.xcassets in Resources */,
 				8D0128891CF4F4B1002583B9 /* MainMenu.xib in Resources */,
 			);
@@ -197,6 +204,7 @@
 				8D0128841CF4F4B0002583B9 /* AppDelegate.swift in Sources */,
 				8DBCEB741CF62DC700DC3535 /* ScrollMouseAct.swift in Sources */,
 				CE565DC11CF5DC04006AAC49 /* ScriptsBuilder.swift in Sources */,
+				CEE9AC951CF8B394007EFA6A /* PreferencesManager.swift in Sources */,
 				8DBCEB791CF6379B00DC3535 /* CGEvent+VariadicWrappers.m in Sources */,
 				8DBCEB6D1CF61C7E00DC3535 /* Scriptable.swift in Sources */,
 			);

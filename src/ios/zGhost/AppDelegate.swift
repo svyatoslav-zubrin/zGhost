@@ -15,8 +15,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var statusMenu: NSMenu!
     @IBOutlet weak var activateMenuItem: NSMenuItem!
     
-    private let simulationManager = SimulationManager()
     private let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSSquareStatusItemLength)
+
+    private let simulationManager = SimulationManager()
+    private let prefsManager = PreferencesManager()
     
     private var activated = false {
         didSet {
@@ -41,7 +43,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func toggleActivation(sender: NSMenuItem) {
         activated = !activated
     }
-    
+
+    @IBAction func preferences(sender: NSMenuItem) {
+        prefsManager.showPreferences()
+    }
+
     @IBAction func quit(sender: NSMenuItem) {
         NSApp.terminate(nil)
     }

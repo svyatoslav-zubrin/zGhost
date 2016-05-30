@@ -5,20 +5,35 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="zGhost" customModuleProvider="target">
+            <connections>
+                <outlet property="SwitchNavTabButton" destination="Jj9-Bp-txO" id="Y3q-om-afQ"/>
+                <outlet property="eventsFrequencyLabel" destination="U4S-Mc-Jhm" id="kgO-1h-H0C"/>
+                <outlet property="eventsFrequencySlider" destination="Mcl-YG-X2q" id="VIn-9m-HT3"/>
+                <outlet property="maximiseXcodeButton" destination="hxk-oc-GL6" id="eMH-cT-lAj"/>
+                <outlet property="mouseClickButton" destination="z9S-k3-Den" id="o30-da-Pz2"/>
+                <outlet property="mouseMoveButton" destination="JUa-7y-sIM" id="XWV-gi-1z7"/>
+                <outlet property="mouseScrollButton" destination="7v2-LG-n5Z" id="2gy-RO-KFy"/>
+                <outlet property="switchMainTabButton" destination="ETz-Ma-6cg" id="OEB-kN-vee"/>
+                <outlet property="switchUtilsTabButton" destination="ueb-Yq-xRw" id="NId-dv-LOc"/>
+                <outlet property="toggleConsoleButton" destination="rGD-i1-yUh" id="WYg-cl-jAM"/>
+                <outlet property="userDefaults" destination="JsI-6g-b9k" id="FfA-pb-SXZ"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="Oxx-Ja-nIb"/>
+            </connections>
+        </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="zGhost Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+            <rect key="contentRect" x="196" y="240" width="509" height="270"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="509" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uyh-yM-xqW">
-                        <rect key="frame" x="18" y="233" width="444" height="17"/>
+                        <rect key="frame" x="18" y="233" width="473" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="BiG-2p-Iw5"/>
                         </constraints>
@@ -29,85 +44,134 @@
                         </textFieldCell>
                     </textField>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="JUa-7y-sIM">
-                        <rect key="frame" x="18" y="209" width="216" height="18"/>
+                        <rect key="frame" x="18" y="209" width="230" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="M46-GE-l2e"/>
                         </constraints>
-                        <buttonCell key="cell" type="check" title="Mouse move" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="77d-Mi-qga">
+                        <buttonCell key="cell" type="check" title="Mouse move" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="77d-Mi-qga">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
+                            <connections>
+                                <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.MoveMouse" id="Yyc-y1-bLj"/>
+                            </connections>
                         </buttonCell>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.MoveMouse" id="28G-9q-vaS"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="z9S-k3-Den">
-                        <rect key="frame" x="18" y="189" width="216" height="18"/>
-                        <buttonCell key="cell" type="check" title="Mouse click" bezelStyle="regularSquare" imagePosition="left" inset="2" id="qiH-Re-zzw">
+                        <rect key="frame" x="18" y="189" width="230" height="18"/>
+                        <buttonCell key="cell" type="check" title="Mouse click" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="qiH-Re-zzw">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="enabled" keyPath="self.unsupportedSetting" id="GOi-OF-Mat"/>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.Click" id="09o-Mu-QPm"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="7v2-LG-n5Z">
-                        <rect key="frame" x="18" y="169" width="216" height="18"/>
-                        <buttonCell key="cell" type="check" title="Mouse scroll" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jfY-1Z-PUI">
+                        <rect key="frame" x="18" y="169" width="230" height="18"/>
+                        <buttonCell key="cell" type="check" title="Mouse scroll" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jfY-1Z-PUI">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.Scroll" id="cNn-RQ-W0g"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="ETz-Ma-6cg">
-                        <rect key="frame" x="247" y="209" width="215" height="18"/>
-                        <buttonCell key="cell" type="check" title="Switch main tabs" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bYK-2r-B3P">
+                        <rect key="frame" x="261" y="209" width="230" height="18"/>
+                        <buttonCell key="cell" type="check" title="Switch main tabs" bezelStyle="regularSquare" imagePosition="left" inset="2" id="bYK-2r-B3P">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.SwitchMainTab" id="PDi-ct-eSc"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Jj9-Bp-txO">
-                        <rect key="frame" x="247" y="189" width="215" height="18"/>
-                        <buttonCell key="cell" type="check" title="Switch navigator tabs (left side)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="XqV-Ya-hXQ">
+                        <rect key="frame" x="261" y="189" width="230" height="18"/>
+                        <buttonCell key="cell" type="check" title="Switch navigator tabs (left side)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="XqV-Ya-hXQ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.SwitchNavigatorTab" id="KZB-VB-iXs"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="ueb-Yq-xRw">
-                        <rect key="frame" x="247" y="169" width="215" height="18"/>
-                        <buttonCell key="cell" type="check" title="Switch utilities tabs (right side)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="zqr-5o-F7h">
+                        <rect key="frame" x="261" y="169" width="230" height="18"/>
+                        <buttonCell key="cell" type="check" title="Switch utilities tabs (right side)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="zqr-5o-F7h">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.SwitchInspectorTab" id="2gq-jL-SQq"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="hxk-oc-GL6">
-                        <rect key="frame" x="18" y="149" width="216" height="18"/>
+                        <rect key="frame" x="18" y="149" width="230" height="18"/>
                         <buttonCell key="cell" type="check" title="Maximise Xcode at activation" bezelStyle="regularSquare" imagePosition="left" inset="2" id="RaE-ef-Ghb">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
+                            <connections>
+                                <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.FullScreen" id="rCo-dX-hRz"/>
+                            </connections>
                         </buttonCell>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.FullScreen" id="Fae-19-9j3"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="rGD-i1-yUh">
-                        <rect key="frame" x="247" y="149" width="215" height="18"/>
-                        <buttonCell key="cell" type="check" title="Toggle debug console" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="TmW-qV-o6k">
+                        <rect key="frame" x="261" y="149" width="230" height="18"/>
+                        <buttonCell key="cell" type="check" title="Toggle debug console" bezelStyle="regularSquare" imagePosition="left" inset="2" id="TmW-qV-o6k">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.ToggleDebugConsole" id="0Dc-Oh-mVt"/>
+                        </connections>
                     </button>
                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Mcl-YG-X2q">
-                        <rect key="frame" x="18" y="85" width="340" height="21"/>
+                        <rect key="frame" x="18" y="86" width="369" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="Azs-c3-AZI"/>
                         </constraints>
-                        <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="ZmG-wJ-JPp"/>
+                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="5" maxValue="100" doubleValue="25" tickMarkPosition="below" numberOfTickMarks="20" allowsTickMarkValuesOnly="YES" sliderType="linear" id="ZmG-wJ-JPp"/>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.EventsFrequency" id="KOa-H0-qL4"/>
+                        </connections>
                     </slider>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="U4S-Mc-Jhm">
-                        <rect key="frame" x="362" y="87" width="100" height="17"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="17" id="2WU-fQ-ukL"/>
-                            <constraint firstAttribute="width" constant="96" id="dpd-bO-RcT"/>
-                        </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="10 seconds" id="WCZ-zK-Izd">
-                            <font key="font" metaFont="system"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3mZ-lh-aDO">
+                        <rect key="frame" x="18" y="112" width="473" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Events time interval" id="jVo-gT-ewW">
+                            <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="U4S-Mc-Jhm">
+                        <rect key="frame" x="391" y="98" width="100" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="2WU-fQ-ukL"/>
+                            <constraint firstAttribute="width" constant="96" id="dpd-bO-RcT"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="100 secs" id="WCZ-zK-Izd">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="JsI-6g-b9k" name="value" keyPath="values.Preferences.EventsFrequency" id="7Ts-kI-2o2">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">EventsFrequencyTextTransformer</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WGr-9S-Z7S">
-                        <rect key="frame" x="391" y="13" width="75" height="32"/>
+                        <rect key="frame" x="420" y="13" width="75" height="32"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="63" id="ebM-Bb-p6f"/>
                             <constraint firstAttribute="height" constant="21" id="fe9-ad-XL5"/>
@@ -116,20 +180,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
-                    </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tJk-fX-fWc">
-                        <rect key="frame" x="310" y="13" width="82" height="32"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="HwZ-F1-vlf"/>
-                            <constraint firstAttribute="width" constant="70" id="R5E-SF-sSP"/>
-                        </constraints>
-                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="naz-kr-s3Y">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-Gw
-</string>
-                        </buttonCell>
+                        <connections>
+                            <action selector="save:" target="JsI-6g-b9k" id="I89-PX-lMQ"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-zE-Eot">
                         <rect key="frame" x="14" y="13" width="139" height="32"/>
@@ -141,15 +194,27 @@ Gw
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="revertToInitialValues:" target="JsI-6g-b9k" id="sgO-gU-43m"/>
+                        </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3mZ-lh-aDO">
-                        <rect key="frame" x="18" y="112" width="444" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Events frequency" id="jVo-gT-ewW">
-                            <font key="font" metaFont="systemBold"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tJk-fX-fWc">
+                        <rect key="frame" x="339" y="13" width="82" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="HwZ-F1-vlf"/>
+                            <constraint firstAttribute="width" constant="70" id="R5E-SF-sSP"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="Revert" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="naz-kr-s3Y">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="revert:" target="JsI-6g-b9k" id="o6o-QZ-iqS"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="7v2-LG-n5Z" firstAttribute="height" secondItem="z9S-k3-Den" secondAttribute="height" id="06m-NO-eGh"/>
@@ -203,7 +268,8 @@ Gw
                     <constraint firstItem="U4S-Mc-Jhm" firstAttribute="baseline" secondItem="Mcl-YG-X2q" secondAttribute="baseline" id="zKY-xD-Qqc"/>
                 </constraints>
             </view>
+            <point key="canvasLocation" x="245.5" y="478"/>
         </window>
-        <userDefaultsController id="0Ow-tg-7uu"/>
+        <userDefaultsController representsSharedInstance="YES" id="JsI-6g-b9k"/>
     </objects>
 </document>

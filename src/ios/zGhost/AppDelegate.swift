@@ -17,8 +17,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSSquareStatusItemLength)
 
-    private let simulationManager = SimulationManager()
-    private let prefsManager = PreferencesManager()
+    let prefs: Preferences = PreferencesManager()
+    
+    private lazy var simulationManager: SimulationManager =
+        { return SimulationManager(preferences: self.prefs) }()
     
     private var activated = false {
         didSet {
@@ -45,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func preferences(sender: NSMenuItem) {
-        prefsManager.showPreferences()
+        prefs.show()
     }
 
     @IBAction func quit(sender: NSMenuItem) {

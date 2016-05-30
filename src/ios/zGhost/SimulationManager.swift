@@ -10,21 +10,71 @@ import Foundation
 import AppKit
 import GameplayKit
 
+protocol Simulation {
+    func start()
+    func stop()
+}
+
 class SimulationManager {
     
-    var simulationInProgress = false
-    var gaussRandomizerX: GKGaussianDistribution!
-    var gaussRandomizerY: GKGaussianDistribution!
-    var simulationTimer: NSTimer!
+    private var simulationInProgress = false
+    private var gaussRandomizerX: GKGaussianDistribution!
+    private var gaussRandomizerY: GKGaussianDistribution!
+    private var simulationTimer: NSTimer!
+    
+    private var preferences: Preferences
+
+    init(preferences: Preferences) {
+        self.preferences = preferences
+        startObservingPreferencesChanges()
+    }
+    
+    deinit {
+        stopObservingPreferencesChanges()
+    }
+    
+    // observing preference changes
+    
+    private func startObservingPreferencesChanges() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(restart), name: NSUserDefaultsDidChangeNotification, object: nil)
+    }
+
+    private func stopObservingPreferencesChanges() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSUserDefaultsDidChangeNotification, object: nil)
+    }
 }
     // MARK: - Public
     
-extension SimulationManager {
-        
+extension SimulationManager: Simulation {
+    
     func start() {
         guard self.simulationInProgress == false else  {
             return
         }
+        
+        print("START")
+        if preferences.shouldMaximiseXcode {
+            print("will maximize Xcode")
+        }
+        if preferences.shouldMoveMouse {
+            print("will move mouse")
+        }
+        if preferences.shouldScroll {
+            print("will scroll")
+        }
+        if preferences.shouldSwitchMainTabs {
+            print("will switch main tabs")
+        }
+        if preferences.shouldSwitchNavigatorTabs {
+            print("will switch navigator tabs")
+        }
+        if preferences.shouldSwitchInspectorTabs {
+            print("will switch inspector tabs")
+        }
+        if preferences.shouldToggleDebugConsole {
+            print("will toggle debug console")
+        }
+
         
         simulationInProgress = true
         gaussRandomizerX = GKGaussianDistribution(lowestValue: 0, highestValue: Int(screenSize().width))
@@ -37,7 +87,9 @@ extension SimulationManager {
         guard self.simulationInProgress == true else  {
             return
         }
-        
+
+        print("STOP")
+
         if let timer = simulationTimer where timer.valid == true {
             timer.invalidate()
             simulationTimer = nil
@@ -48,33 +100,50 @@ extension SimulationManager {
         gaussRandomizerY = nil
     }
     
-    @objc func tick() {
+    @objc func restart() {
+        guard simulationInProgress == true else {
+            return
+        }
+        
+        print("-----------\nRESTART:")
+        
+        stop()
+        start()
+    }
+    
+    @objc private func tick() {
         let x = gaussRandomizerX.nextInt()
         let y = gaussRandomizerY.nextInt()
         
-        moveMouse(x, y)
+        if preferences.shouldMaximiseXcode {
+            makeFullScreen()
+        }
+        
+        if preferences.shouldMoveMouse {
+            moveMouse(x, y)
+        }
+        
+        if preferences.shouldScroll && x % 4 == 0 {
+            let direction = (y % 2 == 0) ? ScriptsBuilder.ScrollDirection.Down : ScriptsBuilder.ScrollDirection.Up
+            scroll(direction)
+        }
 
-        if y % 3 == 0 {
+        if preferences.shouldSwitchMainTabs && y % 3 == 0 {
             switchMainTab()
         }
         
-        if x % 5 == 0 {
+        if preferences.shouldSwitchNavigatorTabs && x % 5 == 0 {
             let tab = navigatorTabFromRandomInt(y)
             switchNavigator(tab)
         }
 
-        if x % 6 == 0 {
+        if preferences.shouldSwitchInspectorTabs && x % 6 == 0 {
             let tab = inspectorTabFromRandomInt(y)
             switchInspector(tab)
         }
 
-        if y % 4 == 0 {
+        if preferences.shouldToggleDebugConsole && y % 4 == 0 {
             toggleDebugConsole()
-        }
-        
-        if x % 4 == 0 {
-            let direction = (y % 2 == 0) ? ScriptsBuilder.ScrollDirection.Down : ScriptsBuilder.ScrollDirection.Up
-            scroll(direction)
         }
     }
 }
@@ -87,6 +156,26 @@ private extension SimulationManager {
         ScriptsBuilder.build(.FullScreen).execute()
     }
     
+    func moveMouse(x: Int, _ y: Int) {
+        let args: Dictionary<ScriptsBuilder.ArgsKey, Any> =
+            [ScriptsBuilder.ArgsKey.PositionX: x,
+             ScriptsBuilder.ArgsKey.PositionY: y]
+        ScriptsBuilder.build(.MoveMouse, args: args).execute()
+    }
+    
+    func click(x: Int, _ y: Int) {
+        let args: Dictionary<ScriptsBuilder.ArgsKey, Any> =
+            [ScriptsBuilder.ArgsKey.PositionX: x,
+             ScriptsBuilder.ArgsKey.PositionY: y]
+        ScriptsBuilder.build(.Click, args: args).execute()
+    }
+    
+    func scroll(direction: ScriptsBuilder.ScrollDirection) {
+        let args: Dictionary<ScriptsBuilder.ArgsKey, Any> =
+            [ScriptsBuilder.ArgsKey.ScrollDirection: ScriptsBuilder.ScrollDirection.Down]
+        ScriptsBuilder.build(.Scroll, args: args).execute()
+    }
+
     func switchMainTab() {
         ScriptsBuilder.build(.SwitchMainTab).execute()
     }
@@ -105,26 +194,6 @@ private extension SimulationManager {
 
     func toggleDebugConsole() {
         ScriptsBuilder.build(.ToggleDebugConsole).execute()
-    }
-
-    func moveMouse(x: Int, _ y: Int) {
-        let args: Dictionary<ScriptsBuilder.ArgsKey, Any> =
-            [ScriptsBuilder.ArgsKey.PositionX: x,
-             ScriptsBuilder.ArgsKey.PositionY: y]
-        ScriptsBuilder.build(.MoveMouse, args: args).execute()
-    }
-    
-    func click() {
-        let args: Dictionary<ScriptsBuilder.ArgsKey, Any> =
-            [ScriptsBuilder.ArgsKey.PositionX: 500,
-             ScriptsBuilder.ArgsKey.PositionY: 500]
-        ScriptsBuilder.build(.Click, args: args).execute()
-    }
-    
-    func scroll(direction: ScriptsBuilder.ScrollDirection) {
-        let args: Dictionary<ScriptsBuilder.ArgsKey, Any> =
-            [ScriptsBuilder.ArgsKey.ScrollDirection: ScriptsBuilder.ScrollDirection.Down]
-        ScriptsBuilder.build(.Scroll, args: args).execute()
     }
 }
 

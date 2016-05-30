@@ -14,13 +14,15 @@ struct ScriptsBuilder {
         case FullScreen
         case SwitchMainTab
         case SwitchNavigatorTab
+        case SwitchInspectorTab
+        case ToggleDebugConsole
         case MoveMouse
         case Click
         case Scroll
     }
     
     enum ArgsKey {
-        case PositionX, PositionY, NavigatorTab, ScrollDirection
+        case PositionX, PositionY, NavigatorTab, InspectorTab, ScrollDirection, DebugConsoleVisibility
     }
     
     enum ScrollDirection {
@@ -30,12 +32,18 @@ struct ScriptsBuilder {
     enum NavigatorTab: Int {
         case Hide = 0, Project, Symbol, Find, Issue, Test, Debug, Breakpoints, Report
     }
+
+    enum InspectorTab: Int {
+        case Hide = 0, File, Help, Identity, Attributes, Size, Connections, Bindings, Effects
+    }
     
     static func build(scriptType: ScriptType, args: Dictionary<ArgsKey, Any>? = nil) -> Scriptable {
         switch scriptType {
         case .FullScreen:         return buildFullScreenScript()
         case .SwitchMainTab:      return buildSwitchMainTabScript()
         case .SwitchNavigatorTab: return buildSwitchNavigatorTabScript(args)
+        case .SwitchInspectorTab: return buildSwitchInspectorTabScript(args)
+        case .ToggleDebugConsole: return buildToggleDebugConsoleScript()
         case .MoveMouse:          return buildMouseMoveScript(args)
         case .Click:              return buildClickScript(args)
         case .Scroll:             return buildScrollScript(args)
@@ -74,7 +82,7 @@ private extension ScriptsBuilder {
     }
 
     static func buildSwitchNavigatorTabScript(args: Dictionary<ArgsKey, Any>?) -> Scriptable {
-        var tabCode = 0
+        var tabCode = 29
         if let args = args,
             tabValue = args[ArgsKey.NavigatorTab] as? NavigatorTab {
             switch tabValue {
@@ -89,11 +97,41 @@ private extension ScriptsBuilder {
             case .Report:       tabCode = 28
             }
         }
-
         let query = "tell application \"Xcode\" to activate\n" +
                     "tell application \"System Events\"\ntell process \"Xcode\"\n" +
                     "    key code {\(tabCode)} using {command down}\n" +
                     "end tell\nend tell\n"
+        return NSAppleScript(source: query)!
+    }
+
+    static func buildSwitchInspectorTabScript(args: Dictionary<ArgsKey, Any>?) -> Scriptable {
+        var tabCode = 29
+        if let args = args,
+            tabValue = args[ArgsKey.InspectorTab] as? InspectorTab {
+            switch tabValue {
+            case .Hide:         tabCode = 29
+            case .File:         tabCode = 18
+            case .Help:         tabCode = 19
+            case .Identity:     tabCode = 20
+            case .Attributes:   tabCode = 21
+            case .Size:         tabCode = 23
+            case .Connections:  tabCode = 22
+            case .Bindings:     tabCode = 26
+            case .Effects:      tabCode = 28
+            }
+        }
+        let query = "tell application \"Xcode\" to activate\n" +
+                    "tell application \"System Events\" to tell process \"Xcode\"\n" +
+                    "    key code {\(tabCode)} using {command down, option down}\n" +
+                    "end tell\n"
+        return NSAppleScript(source: query)!
+    }
+    
+    static func buildToggleDebugConsoleScript() -> Scriptable {
+        let query = "tell application \"Xcode\" to activate\n" +
+                    "tell application \"System Events\" to tell process \"Xcode\"\n" +
+                    "    keystroke \"Y\" using {command down, shift down}\n" +
+                    "end tell\n"
         return NSAppleScript(source: query)!
     }
 
@@ -107,7 +145,6 @@ private extension ScriptsBuilder {
         if let args = args, directionValue = args[ArgsKey.ScrollDirection] as? ScrollDirection {
             direction = directionValue
         }
-        
         return ScrollMouseAct(wheel: direction == ScrollDirection.Up ? 5 : -5)
     }
 
@@ -126,9 +163,6 @@ private extension ScriptsBuilder {
             position.x = CGFloat(x)
             position.y = CGFloat(y)
         }
-        
-        print("position: \(position)")
-        
         return position
     }
 }

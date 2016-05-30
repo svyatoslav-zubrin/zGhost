@@ -62,6 +62,15 @@ extension SimulationManager {
             let tab = navigatorTabFromRandomInt(y)
             switchNavigator(tab)
         }
+
+        if x % 6 == 0 {
+            let tab = inspectorTabFromRandomInt(y)
+            switchInspector(tab)
+        }
+
+        if y % 4 == 0 {
+            toggleDebugConsole()
+        }
         
         if x % 4 == 0 {
             let direction = (y % 2 == 0) ? ScriptsBuilder.ScrollDirection.Down : ScriptsBuilder.ScrollDirection.Up
@@ -86,6 +95,16 @@ private extension SimulationManager {
         let args: Dictionary<ScriptsBuilder.ArgsKey, Any> =
             [ScriptsBuilder.ArgsKey.NavigatorTab: tab]
         ScriptsBuilder.build(.SwitchNavigatorTab, args: args).execute()
+    }
+    
+    func switchInspector(tab: ScriptsBuilder.InspectorTab) {
+        let args: Dictionary<ScriptsBuilder.ArgsKey, Any> =
+            [ScriptsBuilder.ArgsKey.InspectorTab: tab]
+        ScriptsBuilder.build(.SwitchInspectorTab, args: args).execute()
+    }
+
+    func toggleDebugConsole() {
+        ScriptsBuilder.build(.ToggleDebugConsole).execute()
     }
 
     func moveMouse(x: Int, _ y: Int) {
@@ -128,6 +147,14 @@ private extension SimulationManager {
             return tab
         } else {
             return ScriptsBuilder.NavigatorTab.Project
+        }
+    }
+
+    func inspectorTabFromRandomInt(value: Int) -> ScriptsBuilder.InspectorTab {
+        if let tab = ScriptsBuilder.InspectorTab(rawValue: value % 9 ) {
+            return tab
+        } else {
+            return ScriptsBuilder.InspectorTab.File
         }
     }
 }

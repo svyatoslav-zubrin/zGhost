@@ -30,16 +30,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } else {
                 simulationManager.stop()
             }
+            setStatusIcon(activated)
         }
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        if let icon = NSImage(named: "statusIcon") {
-            icon.template = true
-            statusItem.image = icon
-            statusItem.menu = statusMenu
-            activated = false
-        }
+        activated = false
     }
 
     @IBAction func toggleActivation(sender: NSMenuItem) {
@@ -52,6 +48,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func quit(sender: NSMenuItem) {
         NSApp.terminate(nil)
+    }
+}
+
+private extension AppDelegate {
+    
+    func setStatusIcon(active: Bool) {
+        if active == true {
+            if let icon = NSImage(named: "statusIcon-active") {
+                statusItem.image = icon
+                statusItem.menu = statusMenu
+            }
+        } else {
+            if let icon = NSImage(named: "statusIcon") {
+                icon.template = true
+                statusItem.image = icon
+                statusItem.menu = statusMenu
+            }
+        }
     }
 }
 

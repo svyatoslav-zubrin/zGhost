@@ -52,6 +52,7 @@ extension SimulationManager: Simulation {
             return
         }
         
+        /* DEBUG
         print("START")
         if preferences.shouldMaximiseXcode {
             print("will maximize Xcode")
@@ -74,7 +75,7 @@ extension SimulationManager: Simulation {
         if preferences.shouldToggleDebugConsole {
             print("will toggle debug console")
         }
-
+        */
         
         simulationInProgress = true
         gaussRandomizerX = GKGaussianDistribution(lowestValue: 0, highestValue: Int(screenSize().width))
@@ -87,8 +88,6 @@ extension SimulationManager: Simulation {
         guard self.simulationInProgress == true else  {
             return
         }
-
-        print("STOP")
 
         if let timer = simulationTimer where timer.valid == true {
             timer.invalidate()
@@ -104,8 +103,6 @@ extension SimulationManager: Simulation {
         guard simulationInProgress == true else {
             return
         }
-        
-        print("-----------\nRESTART:")
         
         stop()
         start()
